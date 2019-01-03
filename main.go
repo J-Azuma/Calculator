@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"html" //HTMLパッケージのインポートを追加
+	"math/big"
 	"net/http"
-	"strconv"
 )
 
 //ServeHTTPメソッド用の構造体
@@ -18,23 +18,26 @@ func (Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	op := r.FormValue("op")       //演算子(ラジオボタンの値)
 
 	//文字列を整数に変換
-	leftInt, leftErr := strconv.Atoi(left)
-	rightInt, rightErr := strconv.Atoi(right)
+	leftInt := &big.Int{}
+	rightInt := &big.Int{}
+	_, leftOK := leftInt.SetString(left, 10)
+	_, rightOK := rightInt.SetString(right, 10)
 
 	//四則演算の処理
 	//変換エラーが無ければ、演算子に従って計算
 	var result string
-	if leftErr == nil && rightErr == nil {
+	if leftOK && rightOK {
+		resultInt := &big.Int{}
 		//演算子ごとに分岐
 		switch op {
 		case "add":
-			result = strconv.Itoa(leftInt + rightInt)
+			resultInt.Add(leftInt, rightInt)
 		case "sub":
-			result = strconv.Itoa(leftInt - rightInt)
+			resultInt.Sub(leftInt, rightInt)
 		case "multi":
-			result = strconv.Itoa(leftInt * rightInt)
+			resultInt.Mul(leftInt, rightInt)
 		case "div":
-			result = strconv.Itoa(leftInt / rightInt)
+			resultInt.Div(leftInt, rightInt)
 		}
 	}
 
