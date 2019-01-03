@@ -39,6 +39,7 @@ func (Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		case "div":
 			resultInt.Div(leftInt, rightInt)
 		}
+		result = resultInt.String()
 	}
 
 	h := `
