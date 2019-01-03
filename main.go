@@ -46,9 +46,9 @@ func (Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	  演算子:
 	  <input type= "radio" name= "op" value= "add" checked> +
 	  <input type= "radio" name= "op" value= "sub">-
-	  <input type= "radio" name= "op" value= "multi"> +
+	  <input type= "radio" name= "op" value= "multi"> ×
 	  <input type= "radio" name= "op" value= "div"> ÷
-	  <br><input type= "submit" name="送信"><hr>
+	  <br><input type= "submit" name="計算"><hr>
 
 	  [フォームの入力値]<br>
 	  左項目: ` + html.EscapeString(left) + `<br>
