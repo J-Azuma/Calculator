@@ -13,25 +13,28 @@ type Server struct{}
 //httpリクエストを受け取るメソッド
 func (Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	//フォームの入力値を取得
-	left := r.FormValue("left") //左項目
+	left := r.FormValue("left")   //左項目
 	right := r.FormValue("right") //右項目
-	op := r.FormValue("op") //演算子(ラジオボタンの値)
+	op := r.FormValue("op")       //演算子(ラジオボタンの値)
 
-	//文字列を整数に変換	
-	leftInt, leftErr := stconv.Atoi(left)
-	rightInt, rightErr := stconv.Atoi(right)
+	//文字列を整数に変換
+	leftInt, leftErr := strconv.Atoi(left)
+	rightInt, rightErr := strconv.Atoi(right)
 
-	var result string 
+	//四則演算の処理
+	//変換エラーが無ければ、演算子に従って計算
+	var result string
 	if leftErr == nil && rightErr == nil {
+		//演算子ごとに分岐
 		switch op {
-		case "add" :
-			result = stconv.Itoa(leftInt + rightInt)
+		case "add":
+			result = strconv.Itoa(leftInt + rightInt)
 		case "sub":
-			result = stconv.Itoa(LeftInt - rightInt)
+			result = strconv.Itoa(leftInt - rightInt)
 		case "multi":
-			result = stconv.Itoa(leftInt * rightInt)
+			result = strconv.Itoa(leftInt * rightInt)
 		case "div":
-			result = stconv.Itoa(leftInt / rightInt)
+			result = strconv.Itoa(leftInt / rightInt)
 		}
 	}
 
@@ -48,10 +51,10 @@ func (Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	  <br><input type= "submit" name="送信"><hr>
 
 	  [フォームの入力値]<br>
-	  左項目: `html.EscapeString(left) + `<br>
-	  右項目: `html.EscapeString(right)+`<br>
-	  演算子: `html.EscapeString(op)+` <hr>
-	  演算結果: `+ EscapeString(result) + `
+	  左項目: ` + html.EscapeString(left) + `<br>
+	  右項目: ` + html.EscapeString(right) + `<br>
+	  演算子: ` + html.EscapeString(op) + ` <hr>
+	  演算結果: ` + html.EscapeString(result) + `
 	 </form>
 	</body></html>
 	`
@@ -63,4 +66,3 @@ func main() {
 	//Webサーバを起動
 	http.ListenAndServe(":4000", Server{})
 }
-
